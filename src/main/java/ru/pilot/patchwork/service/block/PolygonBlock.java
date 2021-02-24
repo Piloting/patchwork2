@@ -15,6 +15,9 @@ public class PolygonBlock implements IBlock {
     
     @JsonIgnore
     private final long id = BlockIdGenerator.getId();
+    public Long getId(){
+        return id;
+    }
     
     @JsonProperty(value = "paint")
     private Paint paint;
@@ -29,6 +32,11 @@ public class PolygonBlock implements IBlock {
     public PolygonBlock(double[] points, Paint paint){
         this.points = points;
         this.paint = paint;
+    }
+    public PolygonBlock(double[] points, Paint paint, Long similarId){
+        this.points = points;
+        this.paint = paint;
+        this.similarId = similarId;
     }
     
     public PolygonBlock(){
@@ -49,6 +57,6 @@ public class PolygonBlock implements IBlock {
 
     @Override
     public IBlock copyToNew() {
-        return new PolygonBlock(points, paint);
+        return new PolygonBlock(points, paint, similarId);
     }
 }

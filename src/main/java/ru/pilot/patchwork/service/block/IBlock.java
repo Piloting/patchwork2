@@ -18,6 +18,7 @@ import ru.pilot.patchwork.service.coord.Point;
 public interface IBlock {
     List<PolygonBlock> getPolygonBlocks();
     IBlock copyToNew();
+    Long getId();
 
     /** Центральная точка относительно всех полигонов */
     @JsonIgnore

@@ -17,10 +17,10 @@ import ru.pilot.patchwork.service.paint.ColorFill;
 import ru.pilot.patchwork.service.paint.picture.PictureUtils;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class PictureColorSupplier implements PaintStrategy {
+public class PictureColor implements PaintStrategy {
     
     protected final String imageName;
-    public PictureColorSupplier(String imageName){
+    public PictureColor(String imageName){
         this.imageName = imageName;
     }
     

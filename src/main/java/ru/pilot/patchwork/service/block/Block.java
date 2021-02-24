@@ -1,8 +1,10 @@
 package ru.pilot.patchwork.service.block;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
@@ -17,11 +19,18 @@ public class Block implements IBlock {
     @Getter
     @JsonProperty(value = "polygonBlocks")
     private final List<PolygonBlock> polygonBlocks = new ArrayList<>();
+    
+    @JsonIgnore
+    private final long id = BlockIdGenerator.getId();
+    public Long getId(){
+        return id;
+    }
 
     public Block copyToNew(){
         Block newBlock = new Block();
         for (PolygonBlock polygonBlock : getPolygonBlocks()) {
-            PolygonBlock newPolygonBlock = new PolygonBlock(polygonBlock.getPoints(), polygonBlock.getPaint());
+            double[] initPoints = polygonBlock.getPoints();
+            PolygonBlock newPolygonBlock = new PolygonBlock(Arrays.copyOf(initPoints, initPoints.length), polygonBlock.getPaint(), polygonBlock.getSimilarId());
             newBlock.getPolygonBlocks().add(newPolygonBlock);
         }
         return newBlock;

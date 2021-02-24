@@ -33,7 +33,7 @@ public class TextPrinterBlock {
         
         for (PolygonBlock polygonBlock : polygonBlocks) {
             double[] points = polygonBlock.getPoints();
-            logger.debug(Arrays.toString(points));
+            logger.trace(Arrays.toString(points));
             
             int size = points.length;
             int[] pointsX = new int[size/2+1]; 

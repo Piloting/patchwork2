@@ -122,7 +122,7 @@ public class BlockPointManipulatorFx implements BlockPointManipulator {
             transform.transform2DPoints(currentPoints, 0, newPoints, 0, currentPoints.length/2);
 
             polygonBlock.setPoints(newPoints);
-            logger.debug(transform.toString() + ": " + Arrays.toString(currentPoints) + " -> " + Arrays.toString(newPoints));
+            logger.trace(transform.toString() + ": " + Arrays.toString(currentPoints) + " -> " + Arrays.toString(newPoints));
         }
     }
 }

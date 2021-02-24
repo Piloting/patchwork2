@@ -19,7 +19,7 @@ public class RandomColor implements PaintStrategy {
     protected PaintSet paintSet;
     
     public RandomColor(){
-        
+        this(5);
     }
     
     public RandomColor(int colorCount){

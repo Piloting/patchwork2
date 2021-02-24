@@ -1,8 +1,12 @@
 package ru.pilot.patchwork.block;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.pilot.patchwork.dao.constant.BlockConstDao;
 import ru.pilot.patchwork.service.block.Block;
+import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.block.PolygonType;
 import ru.pilot.patchwork.service.paint.ColorFill;
@@ -22,7 +26,17 @@ public class AsciiPrintTest {
         checkAsciiPrint(print, getExpected(), "Ошибка печати");
     }
 
-        private String getExpected(){
+    @Test
+    public void printTest2(){
+        BlockConstDao blockConstDao = new BlockConstDao();
+        List<IBlock> blockList = blockConstDao.getTemplateList();
+        for (IBlock block : blockList) {
+            TextPrinterBlock.print(block);
+        }
+
+    }
+
+    private String getExpected(){
         return  "...........\n" +
                 "..  . .  ..\n" +
                 ". ..   .. .\n" +

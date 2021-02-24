@@ -3,6 +3,7 @@ package ru.pilot.patchwork.service.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -19,6 +20,12 @@ public class BlockSet implements IBlock {
     @JsonProperty(value = "blocks")
     private final List<IBlock> blocks = new ArrayList<>();
 
+    @JsonIgnore
+    private final long id = BlockIdGenerator.getId();
+    public Long getId(){
+        return id;
+    }
+    
     public BlockSet copyToNew(){
         BlockSet newBlockSet = new BlockSet();
         for (IBlock block : blocks) {
