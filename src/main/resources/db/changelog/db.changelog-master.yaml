@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: id_1
+      author: tsuntsov
+      include: 
+        file: 1.0.1/1.01.01.xml
+        relativeToChangelogFile: true
