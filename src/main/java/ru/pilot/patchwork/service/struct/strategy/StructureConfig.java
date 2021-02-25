@@ -14,4 +14,9 @@ public class StructureConfig {
         Object o = paramMap.get(name);
         return (T) o;
     }
+    
+    public <T> T getParam(StructureParam name, T defaultValue){
+        T value = getParam(name);
+        return  value != null ? value : defaultValue;
+    }
 }
