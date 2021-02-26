@@ -7,8 +7,8 @@ import ru.pilot.patchwork.dao.constant.BlockConstDao;
 import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
-import ru.pilot.patchwork.service.struct.strategy.StructureConfig;
-import ru.pilot.patchwork.service.struct.strategy.StructureParam;
+import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.ModelParam;
 import ru.pilot.patchwork.service.struct.strategy.WindowStructure;
 
 public class WindowStructureTest {
@@ -21,7 +21,7 @@ public class WindowStructureTest {
         WindowStructure windowStructure = new WindowStructure();
         List<IBlock> templateList = new BlockConstDao().getTemplateList();
 
-        BlockSet blockSet = windowStructure.fill(blockCountX, blockCountY, templateList, new StructureConfig());
+        BlockSet blockSet = windowStructure.fill(blockCountX, blockCountY, templateList, new ModelConfig());
         TextPrinterBlock.print(blockSet);
     }
     
@@ -33,9 +33,9 @@ public class WindowStructureTest {
         WindowStructure windowStructure = new WindowStructure();
         List<IBlock> templateList = new BlockConstDao().getTemplateList();
 
-        StructureConfig config = new StructureConfig();
-        config.addParam(StructureParam.VERTICAL_DELIMITER, 30);
-        config.addParam(StructureParam.HORIZONTAL_DELIMITER, 30);
+        ModelConfig config = new ModelConfig();
+        config.addParam(ModelParam.VERTICAL_DELIMITER, 30);
+        config.addParam(ModelParam.HORIZONTAL_DELIMITER, 30);
         BlockSet blockSet = windowStructure.fill(blockCountX, blockCountY, templateList, config);
         TextPrinterBlock.print(blockSet);
     }

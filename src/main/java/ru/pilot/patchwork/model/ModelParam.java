@@ -1,6 +1,6 @@
-package ru.pilot.patchwork.service.struct.strategy;
+package ru.pilot.patchwork.model;
 
-public enum StructureParam {
+public enum ModelParam {
     BORDER,
     VERTICAL_LINE,
     VERTICAL_DELIMITER,

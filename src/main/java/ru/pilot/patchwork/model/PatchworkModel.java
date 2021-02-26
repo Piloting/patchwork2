@@ -9,6 +9,8 @@ import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.paint.strategy.PaintStrategy;
 import ru.pilot.patchwork.service.paint.strategy.RandomColor;
+import ru.pilot.patchwork.service.struct.strategy.StructureStrategy;
+import ru.pilot.patchwork.service.struct.strategy.WindowStructure;
 
 public class PatchworkModel {
     
@@ -18,17 +20,15 @@ public class PatchworkModel {
     // доступные блоки для модели
     private TemplateBlocks templateBlocks;
     
-    // генератор цветов
+    // генератор структуры и цветов 
+    private StructureStrategy structureStrategy;
     private PaintStrategy paintStrategy;
-    //private structureGenerator
     
-    // доступ к сохраненным объектам
-    private DaoFactory daoFactory;
     
     public PatchworkModel(){
-        daoFactory = DaoFactory.INSTANCE;
-        templateBlocks = new TemplateBlocks(daoFactory.getBlockDao().getTemplateList());
+        templateBlocks = new TemplateBlocks(DaoFactory.INSTANCE.getBlockDao().getTemplateList());
         paintStrategy = new RandomColor();
+        structureStrategy = new WindowStructure();
     }
     
     /** Блоки для модели */

@@ -9,7 +9,7 @@ import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.struct.strategy.ChessStructure;
-import ru.pilot.patchwork.service.struct.strategy.StructureConfig;
+import ru.pilot.patchwork.model.ModelConfig;
 
 public class ChessStructureTest {
     
@@ -21,7 +21,7 @@ public class ChessStructureTest {
         ChessStructure chessStructure = new ChessStructure();
         List<IBlock> templateList = new BlockConstDao().getTemplateList();
 
-        BlockSet blockSet = chessStructure.fill(blockCountX, blockCountY, templateList, new StructureConfig());
+        BlockSet blockSet = chessStructure.fill(blockCountX, blockCountY, templateList, new ModelConfig());
         TextPrinterBlock.print(blockSet);
         
         Assertions.assertEquals(blockSet.getBlocks().size(), blockCountX*blockCountY);

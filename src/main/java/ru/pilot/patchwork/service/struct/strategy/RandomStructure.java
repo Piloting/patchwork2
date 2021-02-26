@@ -2,6 +2,7 @@ package ru.pilot.patchwork.service.struct.strategy;
 import java.util.List;
 import java.util.Random;
 
+import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.service.block.BlockIdGenerator;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -13,7 +14,7 @@ public class RandomStructure implements StructureStrategy {
     private static final Random rnd = new Random();
     
     @Override
-    public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, StructureConfig config) {
+    public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config) {
         validate(blockCountX, blockCountY, availableBlockList);
 
         int availableBlockCount = availableBlockList.size();

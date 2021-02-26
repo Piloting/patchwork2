@@ -4,12 +4,12 @@ import java.security.InvalidParameterException;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
-import ru.pilot.patchwork.service.block.PolygonBlock;
 
 public interface StructureStrategy {
-    BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, StructureConfig config);
+    BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config);
     
     default void validate(int blockCountX, int blockCountY, List<IBlock> availableBlockList) {
         if (blockCountX < 1 || blockCountY < 1){

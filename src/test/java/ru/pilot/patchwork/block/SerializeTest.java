@@ -2,6 +2,7 @@ package ru.pilot.patchwork.block;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.pilot.patchwork.dao.constant.BlockConstDao;
 import ru.pilot.patchwork.service.block.Block;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -9,6 +10,8 @@ import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.config.JacksonConfig;
 import ru.pilot.patchwork.service.paint.ColorFill;
 import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
+import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.service.struct.strategy.WindowStructure;
 import ru.pilot.patchwork.service.utils.YmlUtils;
 
 public class SerializeTest {
@@ -25,6 +28,27 @@ public class SerializeTest {
         String actual = TextPrinterBlock.print(block);
         
         Assertions.assertEquals(actual.trim(), expected.trim(), "Вид должен совпадать!");
+    }
+    
+    @Test
+    public void toYmlTest2(){
+        YmlUtils.setObjectMapper(new JacksonConfig().objectMapper());
+
+        BlockSet blockSet = createBlockSet2();
+        String expected = TextPrinterBlock.print(blockSet);
+
+        String yml = YmlUtils.toYml(blockSet);
+        IBlock block = YmlUtils.fromYml(yml);
+        String actual = TextPrinterBlock.print(block);
+        
+        Assertions.assertEquals(actual.trim(), expected.trim(), "Вид должен совпадать!");
+    }
+
+    private BlockSet createBlockSet2() {
+        return new WindowStructure().fill(
+                5, 5,
+                new BlockConstDao().getTemplateList(),
+                new ModelConfig());
     }
 
 

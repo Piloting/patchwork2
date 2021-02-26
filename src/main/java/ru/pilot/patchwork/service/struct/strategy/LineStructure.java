@@ -2,6 +2,8 @@ package ru.pilot.patchwork.service.struct.strategy;
 
 import java.util.List;
 
+import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.ModelParam;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.coord.BlockPointManipulator;
@@ -18,11 +20,11 @@ import ru.pilot.patchwork.service.coord.Point;
 public class LineStructure implements StructureStrategy {
     
     @Override
-    public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, StructureConfig config) {
+    public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config) {
         validate(blockCountX, blockCountY, availableBlockList);
 
         // расположение из настройки или по длинной стороне
-        Boolean isVertical = config.getParam(StructureParam.VERTICAL_LINE);
+        Boolean isVertical = config.getParam(ModelParam.VERTICAL_LINE);
         isVertical = isVertical == null ? (blockCountX >= blockCountY) : isVertical;
 
         BlockPointManipulator manipulator = BlockPointManipulatorFactory.INSTANCE.getManipulator();
@@ -75,7 +77,7 @@ public class LineStructure implements StructureStrategy {
         }
     }
 
-    private double generateHorizontal(int blockCountX, List<IBlock> availableBlockList, StructureConfig config, BlockSet blockSet, int center) {
+    private double generateHorizontal(int blockCountX, List<IBlock> availableBlockList, ModelConfig config, BlockSet blockSet, int center) {
         RandomStructure randomStructure = new RandomStructure();
         double nextY = 0;
         // проходим от начала до центра - тут генерируем
@@ -111,7 +113,7 @@ public class LineStructure implements StructureStrategy {
         }
     }
 
-    private double generateVertical(int blockCountY, List<IBlock> availableBlockList, StructureConfig config, BlockSet blockSet, int center) {
+    private double generateVertical(int blockCountY, List<IBlock> availableBlockList, ModelConfig config, BlockSet blockSet, int center) {
         RandomStructure randomStructure = new RandomStructure();
         double nextX = 0;
         // проходим от начала до центра - тут генерируем

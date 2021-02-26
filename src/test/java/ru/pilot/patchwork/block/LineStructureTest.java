@@ -9,8 +9,8 @@ import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.struct.strategy.LineStructure;
-import ru.pilot.patchwork.service.struct.strategy.StructureConfig;
-import ru.pilot.patchwork.service.struct.strategy.StructureParam;
+import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.ModelParam;
 
 public class LineStructureTest {
     
@@ -22,8 +22,8 @@ public class LineStructureTest {
         LineStructure lineStructure = new LineStructure();
         List<IBlock> templateList = new BlockConstDao().getTemplateList();
 
-        StructureConfig config = new StructureConfig();
-        config.addParam(StructureParam.VERTICAL_LINE, true);
+        ModelConfig config = new ModelConfig();
+        config.addParam(ModelParam.VERTICAL_LINE, true);
         BlockSet blockSet = lineStructure.fill(blockCountX, blockCountY, templateList, config);
         TextPrinterBlock.print(blockSet);
         
@@ -38,8 +38,8 @@ public class LineStructureTest {
         LineStructure lineStructure = new LineStructure();
         List<IBlock> templateList = new BlockConstDao().getTemplateList();
 
-        StructureConfig config = new StructureConfig();
-        config.addParam(StructureParam.VERTICAL_LINE, false);
+        ModelConfig config = new ModelConfig();
+        config.addParam(ModelParam.VERTICAL_LINE, false);
         BlockSet blockSet = lineStructure.fill(blockCountX, blockCountY, templateList, config);
         TextPrinterBlock.print(blockSet);
         

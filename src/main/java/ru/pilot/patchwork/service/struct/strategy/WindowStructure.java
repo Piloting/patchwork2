@@ -3,6 +3,8 @@ package ru.pilot.patchwork.service.struct.strategy;
 import java.util.List;
 
 import liquibase.util.StringUtils;
+import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.ModelParam;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.coord.BlockPointManipulator;
@@ -28,12 +30,12 @@ import ru.pilot.patchwork.service.coord.Point;
 public class WindowStructure implements StructureStrategy {
     
     @Override
-    public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, StructureConfig config) {
+    public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config) {
         validate(blockCountX, blockCountY, availableBlockList);
         
         // настройки размера рамы
-        int delimiterPercentX = config.getParam(StructureParam.VERTICAL_DELIMITER, 0);
-        int delimiterPercentY = config.getParam(StructureParam.HORIZONTAL_DELIMITER, 0);
+        int delimiterPercentX = config.getParam(ModelParam.VERTICAL_DELIMITER, 0);
+        int delimiterPercentY = config.getParam(ModelParam.HORIZONTAL_DELIMITER, 0);
         // по % рамы вычислим % на 1 окно
         int windowPercentX = (100 - delimiterPercentX) / 2;
         int windowPercentY = (100 - delimiterPercentY) / 2;
@@ -72,7 +74,7 @@ public class WindowStructure implements StructureStrategy {
     }
 
 
-    private BlockSet generateBlocks(List<IBlock> availableBlockList, StructureConfig config,
+    private BlockSet generateBlocks(List<IBlock> availableBlockList, ModelConfig config,
                                     int blockCountX,              int blockCountY,
                                     int windowBlockCountX,        int windowBlockCountY,
                                     int vertFrameBlockCountX,     int vertFrameBlockCountY,
@@ -97,22 +99,22 @@ public class WindowStructure implements StructureStrategy {
 
         // генерируем вертикальную часть рамы
         if (vertFrameBlockCountX > 0 && vertFrameBlockCountY > 0){
-            StructureConfig vertLineConfig = new StructureConfig();
-            vertLineConfig.addParam(StructureParam.VERTICAL_LINE, true);
+            ModelConfig vertLineConfig = new ModelConfig();
+            vertLineConfig.addParam(ModelParam.VERTICAL_LINE, true);
             vertFrameBlock = lineStructure.fill(vertFrameBlockCountX, vertFrameBlockCountY, availableBlockList, vertLineConfig);
         }
 
         // генерируем горизонтальную часть рамы
         if (horizontFrameBlockCountX > 0 && horizontFrameBlockCountY > 0){
-            StructureConfig horizontLineConfig = new StructureConfig();
-            horizontLineConfig.addParam(StructureParam.VERTICAL_LINE, false);
+            ModelConfig horizontLineConfig = new ModelConfig();
+            horizontLineConfig.addParam(ModelParam.VERTICAL_LINE, false);
             horizontFrameBlock = lineStructure.fill(horizontFrameBlockCountX, horizontFrameBlockCountY, availableBlockList, horizontLineConfig);
         }
 
         // генерируем точку рамы
         if (pointFrameBlockCountX > 0 && pointFrameBlockCountY > 0){
             WindowStructure windowStructure = new WindowStructure();
-            pointFrameBlock = windowStructure.fill(pointFrameBlockCountX, pointFrameBlockCountY, availableBlockList, new StructureConfig());
+            pointFrameBlock = windowStructure.fill(pointFrameBlockCountX, pointFrameBlockCountY, availableBlockList, new ModelConfig());
         }
 
         

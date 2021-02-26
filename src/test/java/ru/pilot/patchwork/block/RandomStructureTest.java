@@ -9,7 +9,7 @@ import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.struct.strategy.RandomStructure;
-import ru.pilot.patchwork.service.struct.strategy.StructureConfig;
+import ru.pilot.patchwork.model.ModelConfig;
 
 public class RandomStructureTest {
     
@@ -21,7 +21,7 @@ public class RandomStructureTest {
         RandomStructure randomStructure = new RandomStructure();
         List<IBlock> templateList = new BlockConstDao().getTemplateList();
         
-        BlockSet blockSet = randomStructure.fill(blockCountX, blockCountY, templateList, new StructureConfig());
+        BlockSet blockSet = randomStructure.fill(blockCountX, blockCountY, templateList, new ModelConfig());
         TextPrinterBlock.print(blockSet);
         
         Assertions.assertEquals(blockSet.getBlocks().size(), blockCountX*blockCountY);
