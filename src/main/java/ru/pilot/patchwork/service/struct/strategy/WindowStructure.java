@@ -3,8 +3,11 @@ package ru.pilot.patchwork.service.struct.strategy;
 import java.util.List;
 
 import liquibase.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.model.ModelParam;
+import ru.pilot.patchwork.model.StructureStrategyType;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.coord.BlockPointManipulator;
@@ -27,8 +30,10 @@ import ru.pilot.patchwork.service.coord.Point;
  * 
  * Размер и наличие рамы задается через настройки
  */
-public class WindowStructure implements StructureStrategy {
-    
+public class WindowStructure extends StructureStrategy {
+    private static final Logger logger = LoggerFactory.getLogger(WindowStructure.class);
+
+
     @Override
     public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config) {
         validate(blockCountX, blockCountY, availableBlockList);
@@ -212,34 +217,43 @@ public class WindowStructure implements StructureStrategy {
             int horizontFrameBlockCountX, int horizontFrameBlockCountY,
             int pointFrameBlockCountX,    int pointFrameBlockCountY){
         
+        if (!logger.isTraceEnabled()){
+            return;
+        }
+        
         String window = " . ";
         String frame  = " X ";
         String center = " 0 ";
 
-        System.out.println(StringUtils.repeat("-", window.length() * (blockCountX)));
+        logger.trace(StringUtils.repeat("-", window.length() * (blockCountX)));
 
         pseudoPrint(windowBlockCountX, vertFrameBlockCountX, windowBlockCountY, blockCountX, window, frame);
         pseudoPrint(horizontFrameBlockCountX, pointFrameBlockCountX, horizontFrameBlockCountY, blockCountX, frame, center);
         if (blockCountY > 1) {
             pseudoPrint(windowBlockCountX, vertFrameBlockCountX, windowBlockCountY, blockCountX, window, frame);
         }
-        
-        System.out.println(StringUtils.repeat("-", window.length() * (blockCountX)));
+
+        logger.trace(StringUtils.repeat("-", window.length() * (blockCountX)));
     }
     
     private void pseudoPrint(int windowBlockCountX, int vertFrameBlockCountX, int windowBlockCountY, int blockCountX, String window, String frame) {
         for (int i = 0; i < windowBlockCountY; i++) {
+            StringBuilder sb = new StringBuilder();
             for (int j = 0; j < windowBlockCountX; j++) {
-                System.out.print(window);
+                sb.append(window);
             }
             for (int j = 0; j < vertFrameBlockCountX; j++) {
-                System.out.print(frame);
+                sb.append(frame);
             }
             for (int j = 0; j < windowBlockCountX && blockCountX>1; j++) {
-                System.out.print(window);
+                sb.append(window);
             }
-            System.out.println();
+            logger.trace(sb.toString());
         }
     }
 
+    @Override
+    protected StructureStrategyType getType() {
+        return StructureStrategyType.WindowStructure;
+    }
 }

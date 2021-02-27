@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.pilot.patchwork.dao.constant.BlockConstDao;
+import ru.pilot.patchwork.dao.mem.BlockMemoryDao;
 import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -20,7 +20,7 @@ public class LineStructureTest {
         int blockCountY = 5;
 
         LineStructure lineStructure = new LineStructure();
-        List<IBlock> templateList = new BlockConstDao().getTemplateList();
+        List<IBlock> templateList = new BlockMemoryDao().getTemplateList();
 
         ModelConfig config = new ModelConfig();
         config.addParam(ModelParam.VERTICAL_LINE, true);
@@ -36,7 +36,7 @@ public class LineStructureTest {
         int blockCountY = 4;
 
         LineStructure lineStructure = new LineStructure();
-        List<IBlock> templateList = new BlockConstDao().getTemplateList();
+        List<IBlock> templateList = new BlockMemoryDao().getTemplateList();
 
         ModelConfig config = new ModelConfig();
         config.addParam(ModelParam.VERTICAL_LINE, false);

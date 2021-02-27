@@ -4,6 +4,7 @@ import java.util.List;
 
 import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.model.ModelParam;
+import ru.pilot.patchwork.model.StructureStrategyType;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.coord.BlockPointManipulator;
@@ -17,7 +18,7 @@ import ru.pilot.patchwork.service.coord.Point;
  * Вертикальные или горизонтальные линии.
  * До середины гереруются линии из случайных блоков, далее (от середины до конца) зеркально
  */
-public class LineStructure implements StructureStrategy {
+public class LineStructure extends StructureStrategy {
     
     @Override
     public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config) {
@@ -128,5 +129,10 @@ public class LineStructure implements StructureStrategy {
             nextX = max.getX();
         }
         return nextX;
+    }
+    
+    @Override
+    protected StructureStrategyType getType() {
+        return StructureStrategyType.LineStructure;
     }
 }

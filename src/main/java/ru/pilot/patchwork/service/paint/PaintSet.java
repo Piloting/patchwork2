@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 import lombok.Data;
+import ru.pilot.patchwork.service.block.BlockIdGenerator;
 
 @Data
 public class PaintSet {
 
     private static final Random rnd = new Random();
     private final List<Paint> paints;
+    private final Long id = BlockIdGenerator.getId();
     
     public PaintSet(){
         this(new ArrayList<>());

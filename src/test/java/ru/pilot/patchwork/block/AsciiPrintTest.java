@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.pilot.patchwork.dao.constant.BlockConstDao;
+import ru.pilot.patchwork.dao.mem.BlockMemoryDao;
 import ru.pilot.patchwork.service.block.Block;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
@@ -28,8 +28,8 @@ public class AsciiPrintTest {
 
     @Test
     public void printTest2(){
-        BlockConstDao blockConstDao = new BlockConstDao();
-        List<IBlock> blockList = blockConstDao.getTemplateList();
+        BlockMemoryDao blockMemoryDao = new BlockMemoryDao();
+        List<IBlock> blockList = blockMemoryDao.getTemplateList();
         for (IBlock block : blockList) {
             TextPrinterBlock.print(block);
         }

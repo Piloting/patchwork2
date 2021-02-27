@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Getter;
 import ru.pilot.patchwork.service.coord.BlockPointManipulator;
 import ru.pilot.patchwork.service.coord.BlockPointManipulatorFactory;

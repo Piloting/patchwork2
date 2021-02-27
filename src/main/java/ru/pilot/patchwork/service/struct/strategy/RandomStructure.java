@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.StructureStrategyType;
 import ru.pilot.patchwork.service.block.BlockIdGenerator;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -10,7 +11,7 @@ import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.coord.CoordUtils;
 import ru.pilot.patchwork.service.coord.Point;
 
-public class RandomStructure implements StructureStrategy {
+public class RandomStructure extends StructureStrategy {
     private static final Random rnd = new Random();
     
     @Override
@@ -56,5 +57,10 @@ public class RandomStructure implements StructureStrategy {
             polygonBlock.setSimilarId(BlockIdGenerator.getId());
         }
         return block;
+    }
+    
+    @Override
+    protected StructureStrategyType getType() {
+        return StructureStrategyType.ChessStructure;
     }
 }

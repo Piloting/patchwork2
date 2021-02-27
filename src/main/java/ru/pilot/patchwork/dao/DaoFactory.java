@@ -1,22 +1,22 @@
 package ru.pilot.patchwork.dao;
 
-import ru.pilot.patchwork.dao.constant.BlockConstDao;
+import lombok.Getter;
+import ru.pilot.patchwork.dao.mem.BlockMemoryDao;
+import ru.pilot.patchwork.dao.mem.PaintMemoryDao;
 
+@Getter
 public class DaoFactory {
     public static final DaoFactory INSTANCE = new DaoFactory();
-
+    
     private final BlockDao blockDao;
+    private final PaintDao paintDao;
     
     private DaoFactory(){
-        this(new BlockConstDao());
+        this(new BlockMemoryDao(), new PaintMemoryDao());
     }
     
-    private DaoFactory(BlockDao blockDao){
+    private DaoFactory(BlockDao blockDao, PaintDao paintDao){
         this.blockDao = blockDao;
+        this.paintDao = paintDao;
     }
-    
-    public BlockDao getBlockDao(){
-        return blockDao;
-    }
-    
 }

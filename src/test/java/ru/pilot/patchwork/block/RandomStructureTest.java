@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.pilot.patchwork.dao.constant.BlockConstDao;
+import ru.pilot.patchwork.dao.mem.BlockMemoryDao;
 import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -19,7 +19,7 @@ public class RandomStructureTest {
         int blockCountY = 3;
         
         RandomStructure randomStructure = new RandomStructure();
-        List<IBlock> templateList = new BlockConstDao().getTemplateList();
+        List<IBlock> templateList = new BlockMemoryDao().getTemplateList();
         
         BlockSet blockSet = randomStructure.fill(blockCountX, blockCountY, templateList, new ModelConfig());
         TextPrinterBlock.print(blockSet);

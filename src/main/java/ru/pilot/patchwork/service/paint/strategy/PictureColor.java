@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javafx.scene.image.PixelReader;
 import org.apache.commons.collections4.CollectionUtils;
+import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.coord.BlockPointManipulatorFactory;
@@ -17,19 +18,22 @@ import ru.pilot.patchwork.service.paint.ColorFill;
 import ru.pilot.patchwork.service.paint.picture.PictureUtils;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class PictureColor implements PaintStrategy {
+import static ru.pilot.patchwork.model.ModelParam.PICTURE;
+
+public class PictureColor extends PaintStrategy {
     
-    protected final String imageName;
-    public PictureColor(String imageName){
-        this.imageName = imageName;
-    }
     
     @Override
-    public void fill(PolygonBlock polygonBlock) {
+    public void fill(PolygonBlock polygonBlock, ModelConfig modelConfig) {
         throw new NotImplementedException();
     }
 
-    public void fill(IBlock block){
+    public void fill(IBlock block, ModelConfig modelConfig){
+        String imageName = modelConfig.getParam(PICTURE);
+        if (imageName == null){
+            throw new RuntimeException("Undefined image");
+        }
+
         // надо определить размеры блоков, что бы накладывать на картинку размер в размер.
         List<PolygonBlock> polygonBlocks = block.getPolygonBlocks();
         Point size = CoordUtils.getSize(polygonBlocks);

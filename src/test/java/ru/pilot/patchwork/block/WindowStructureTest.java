@@ -3,7 +3,7 @@ package ru.pilot.patchwork.block;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import ru.pilot.patchwork.dao.constant.BlockConstDao;
+import ru.pilot.patchwork.dao.mem.BlockMemoryDao;
 import ru.pilot.patchwork.ext.awt.TextPrinterBlock;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -19,7 +19,7 @@ public class WindowStructureTest {
         int blockCountY = 3;
 
         WindowStructure windowStructure = new WindowStructure();
-        List<IBlock> templateList = new BlockConstDao().getTemplateList();
+        List<IBlock> templateList = new BlockMemoryDao().getTemplateList();
 
         BlockSet blockSet = windowStructure.fill(blockCountX, blockCountY, templateList, new ModelConfig());
         TextPrinterBlock.print(blockSet);
@@ -31,7 +31,7 @@ public class WindowStructureTest {
         int blockCountY = 10;
 
         WindowStructure windowStructure = new WindowStructure();
-        List<IBlock> templateList = new BlockConstDao().getTemplateList();
+        List<IBlock> templateList = new BlockMemoryDao().getTemplateList();
 
         ModelConfig config = new ModelConfig();
         config.addParam(ModelParam.VERTICAL_DELIMITER, 30);

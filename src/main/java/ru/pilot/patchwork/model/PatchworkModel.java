@@ -4,14 +4,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lombok.Data;
 import ru.pilot.patchwork.dao.DaoFactory;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
+import ru.pilot.patchwork.service.coord.Point;
 import ru.pilot.patchwork.service.paint.strategy.PaintStrategy;
 import ru.pilot.patchwork.service.paint.strategy.RandomColor;
 import ru.pilot.patchwork.service.struct.strategy.StructureStrategy;
 import ru.pilot.patchwork.service.struct.strategy.WindowStructure;
 
+@Data
 public class PatchworkModel {
     
     // модель текущего проекта
@@ -23,16 +26,18 @@ public class PatchworkModel {
     // генератор структуры и цветов 
     private StructureStrategy structureStrategy;
     private PaintStrategy paintStrategy;
-    
+    private Point sizeModel;
+    private ModelConfig modelConfig = new ModelConfig();
     
     public PatchworkModel(){
         templateBlocks = new TemplateBlocks(DaoFactory.INSTANCE.getBlockDao().getTemplateList());
-        paintStrategy = new RandomColor();
+        sizeModel = new Point(4,4);
         structureStrategy = new WindowStructure();
+        paintStrategy = new RandomColor();
     }
     
     /** Блоки для модели */
-    private static class TemplateBlocks {
+    public static class TemplateBlocks {
         private final List<IBlock> allBockList;
         private final Set<Long> activeBlockIds;
         public TemplateBlocks(List<IBlock> blockList){

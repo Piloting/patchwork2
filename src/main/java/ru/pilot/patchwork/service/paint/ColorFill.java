@@ -1,9 +1,12 @@
 package ru.pilot.patchwork.service.paint;
 
 import lombok.Getter;
+import ru.pilot.patchwork.service.block.BlockIdGenerator;
 
 @Getter
 public class ColorFill implements Paint {
+    
+    private final Long id = BlockIdGenerator.getId();
 
     public static final ColorFill BLACK = new ColorFill(0, 0, 0);
     public static final ColorFill RED = new ColorFill(1, 0, 0);
@@ -15,8 +18,16 @@ public class ColorFill implements Paint {
     private final int green;
     private final int blue;
 
+    /** Для такой строки - #3c1d25 */
+    public static ColorFill web(String web) {
+        web = web.substring(1);
+        return new ColorFill(
+                Integer.parseInt(web.substring(0, 1), 16),
+                Integer.parseInt(web.substring(1, 2), 16), 
+                Integer.parseInt(web.substring(2, 3), 16));
+    }
     public ColorFill(int red, int green, int blue) {
-        checkRGB(red, green, blue);
+        
         this.red = red;
         this.green = green;
         this.blue = blue;

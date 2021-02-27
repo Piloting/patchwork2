@@ -3,6 +3,7 @@ package ru.pilot.patchwork.service.struct.strategy;
 import java.util.List;
 
 import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.StructureStrategyType;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
@@ -14,7 +15,7 @@ import ru.pilot.patchwork.service.coord.Point;
  * Шахматная структура.
  * Если 2 блока, то стандартная шахматка, если больше, то просто последовательное чередование блоков.
  */
-public class ChessStructure implements StructureStrategy {
+public class ChessStructure extends StructureStrategy {
     
     @Override
     public BlockSet fill(int blockCountX, int blockCountY, List<IBlock> availableBlockList, ModelConfig config) {
@@ -49,6 +50,11 @@ public class ChessStructure implements StructureStrategy {
         }
         
         return blockSet;
+    }
+
+    @Override
+    protected StructureStrategyType getType() {
+        return StructureStrategyType.ChessStructure;
     }
 
     private IBlock getNewBlock(List<IBlock> availableBlockList, int availableBlockCount, int itemNumber) {

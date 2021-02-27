@@ -7,13 +7,14 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.collections4.CollectionUtils;
+import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.paint.ColorFill;
 import ru.pilot.patchwork.service.paint.Paint;
 import ru.pilot.patchwork.service.paint.PaintSet;
 
-public class RandomColor implements PaintStrategy {
+public class RandomColor extends PaintStrategy {
     
     private static final Random rnd = new Random();
     protected PaintSet paintSet;
@@ -27,12 +28,12 @@ public class RandomColor implements PaintStrategy {
     }
     
     public RandomColor(PaintSet paintSet){
-        this.paintSet = paintSet;
+        this.paintSet = paintSet != null ? paintSet : getColorSet(5);
     }
 
     /** Раскрасим подобные блоки одинаково */
     @Override
-    public void fill(IBlock block) {
+    public void fill(IBlock block, ModelConfig modelConfig) {
         // сделаем цвета для одинаковых блоков
         Map<Long, Paint> similarMap = new HashMap<>();
         for (PolygonBlock polygonBlock : block.getPolygonBlocks()) {
@@ -50,7 +51,7 @@ public class RandomColor implements PaintStrategy {
     }
     
     @Override
-    public void fill(PolygonBlock polygonBlock) {
+    public void fill(PolygonBlock polygonBlock, ModelConfig modelConfig) {
         polygonBlock.setPaint(getRndPaint());
     }
 

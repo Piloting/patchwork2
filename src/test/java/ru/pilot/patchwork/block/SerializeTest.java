@@ -2,7 +2,7 @@ package ru.pilot.patchwork.block;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.pilot.patchwork.dao.constant.BlockConstDao;
+import ru.pilot.patchwork.dao.mem.BlockMemoryDao;
 import ru.pilot.patchwork.service.block.Block;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -47,7 +47,7 @@ public class SerializeTest {
     private BlockSet createBlockSet2() {
         return new WindowStructure().fill(
                 5, 5,
-                new BlockConstDao().getTemplateList(),
+                new BlockMemoryDao().getTemplateList(),
                 new ModelConfig());
     }
 

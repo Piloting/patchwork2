@@ -4,7 +4,6 @@ package ru.pilot.patchwork.ext.javafx;
 import java.util.Arrays;
 import java.util.List;
 
-
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;

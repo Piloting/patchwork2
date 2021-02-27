@@ -5,7 +5,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import ru.pilot.patchwork.service.coord.CoordUtils;
 import ru.pilot.patchwork.service.coord.Point;
 

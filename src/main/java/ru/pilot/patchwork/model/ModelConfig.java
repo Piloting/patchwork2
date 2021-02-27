@@ -19,4 +19,8 @@ public class ModelConfig {
         T value = getParam(name);
         return  value != null ? value : defaultValue;
     }
+    
+    public void addFrom(ModelConfig modelConfig){
+        paramMap.putAll(modelConfig.paramMap);
+    }
 }
