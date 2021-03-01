@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 import ru.pilot.patchwork.model.ModelConfig;
-import ru.pilot.patchwork.model.StructureStrategyType;
+import ru.pilot.patchwork.model.StructureType;
 import ru.pilot.patchwork.service.block.BlockIdGenerator;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
@@ -33,7 +33,7 @@ public class RandomStructure extends StructureStrategy {
                 IBlock block = getNewBlock(availableBlockList, availableBlockCount);
                 
                 // добавляем в нужное место
-                blockSet.addBLock(block, nextX, nextY);
+                blockSet.addBlock(block, nextX, nextY);
                 
                 // получим дальние точки для размещения следующих блоков
                 Point max = CoordUtils.getMax(block.getPolygonBlocks());
@@ -60,7 +60,7 @@ public class RandomStructure extends StructureStrategy {
     }
     
     @Override
-    protected StructureStrategyType getType() {
-        return StructureStrategyType.ChessStructure;
+    protected StructureType getType() {
+        return StructureType.CHESS_STRUCTURE;
     }
 }

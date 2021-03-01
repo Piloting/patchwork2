@@ -17,7 +17,7 @@ public class BlockSet implements IBlock {
      */
     @Getter
     @JsonProperty(value = "blocks")
-    private final List<IBlock> blocks = new ArrayList<>();
+    private final List<Block> blocks = new ArrayList<>();
 
     @JsonIgnore
     private final long id = BlockIdGenerator.getId();
@@ -27,7 +27,7 @@ public class BlockSet implements IBlock {
     
     public BlockSet copyToNew(){
         BlockSet newBlockSet = new BlockSet();
-        for (IBlock block : blocks) {
+        for (Block block : blocks) {
             newBlockSet.getBlocks().add(block.copyToNew());
         }
         return newBlockSet;
@@ -42,9 +42,19 @@ public class BlockSet implements IBlock {
         return polygonBlocks;
     }
     
-    public void addBLock(IBlock block, double x, double y){
-        BlockPointManipulator manipulator = BlockPointManipulatorFactory.INSTANCE.getManipulator();
-        manipulator.translate(block, x, y);
-        blocks.add(block);
+    public void addBlock(IBlock iBlock, double x, double y){
+        if (iBlock instanceof BlockSet){
+            List<Block> innerBlocks = ((BlockSet) iBlock).getBlocks();
+            for (Block block : innerBlocks) {
+                BlockPointManipulator manipulator = BlockPointManipulatorFactory.INSTANCE.getManipulator();
+                manipulator.translate(block, x, y);
+                blocks.add(block);
+            }
+        } else if (iBlock instanceof Block){
+            BlockPointManipulator manipulator = BlockPointManipulatorFactory.INSTANCE.getManipulator();
+            manipulator.translate(iBlock, x, y);
+            blocks.add((Block)iBlock);
+        }
+        
     }
 }

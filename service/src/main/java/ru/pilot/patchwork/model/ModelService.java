@@ -59,7 +59,7 @@ public class ModelService {
     public List<BlockSet> generateVariousSimples(PaintSet paintSet){
         List<BlockSet> blockSets = new ArrayList<>(9);
         // при повторной генерации блоки и цвета будут отличаться
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             blockSets.addAll(getSimpleModels());
         }
         PaintStrategy paintStrategy = new RandomColor(paintSet);
@@ -82,7 +82,7 @@ public class ModelService {
     private void genSimples(List<BlockSet> blockSets, List<IBlock> templateList, StructureStrategy structureStrategy) {
         blockSets.add(structureStrategy.fill(4,4, templateList, new ModelConfig()));
         blockSets.add(structureStrategy.fill(5,5, templateList, new ModelConfig()));
-        blockSets.add(structureStrategy.fill(9,12, templateList, new ModelConfig()));
+        blockSets.add(structureStrategy.fill(6,6, templateList, new ModelConfig()));
     }
 
     public void replaceBlock(Long oldTemplateBlockId, IBlock newTemplateBlockId) {

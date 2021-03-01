@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.pilot.patchwork.model.ModelConfig;
 import ru.pilot.patchwork.model.ModelParam;
-import ru.pilot.patchwork.model.StructureStrategyType;
+import ru.pilot.patchwork.model.StructureType;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.coord.BlockPointManipulator;
@@ -139,19 +139,19 @@ public class WindowStructure extends StructureStrategy {
         
         // левое верхнее окно
         if (windowBlock != null){
-            blockSet.addBLock(windowBlock.copyToNew(), currentX, currentY);
+            blockSet.addBlock(windowBlock.copyToNew(), currentX, currentY);
             currentX += windowBlockSize.getX();
         }
         // вертикальная рама между верхними окнами
         if (vertFrameBlock != null && blockCountX > 1){
-            blockSet.addBLock(vertFrameBlock.copyToNew(), currentX, 0);
+            blockSet.addBlock(vertFrameBlock.copyToNew(), currentX, 0);
             currentX += vertFrameBlockSize.getX();
         }
         // правое верхнее окно
         if (windowBlock != null && blockCountX > 1){
             BlockSet copy = windowBlock.copyToNew();
             manipulator.mirror(copy, MirrorType.HORIZONTAL);
-            blockSet.addBLock(copy, currentX, 0);
+            blockSet.addBlock(copy, currentX, 0);
         }
         
         //  . . . 0 . . .
@@ -160,19 +160,19 @@ public class WindowStructure extends StructureStrategy {
         currentX = 0;
         currentY = CoordUtils.getMax(blockSet.getPolygonBlocks()).getY();
         if (horizontFrameBlock != null){
-            blockSet.addBLock(horizontFrameBlock.copyToNew(), currentX, currentY);
+            blockSet.addBlock(horizontFrameBlock.copyToNew(), currentX, currentY);
             currentX += horizontFrameBlockSize.getX();
         }
         // точка рамы между верхними и нижними окнами
         if (pointFrameBlock != null){
-            blockSet.addBLock(pointFrameBlock.copyToNew(), currentX, currentY);
+            blockSet.addBlock(pointFrameBlock.copyToNew(), currentX, currentY);
             currentX += pointFrameBlockSize.getX();
         }
         // Правая часть горизонтальной рамы между верхними и нижними окнами  
         if (horizontFrameBlock != null && blockCountX > 1){
             BlockSet copy = horizontFrameBlock.copyToNew();
             manipulator.mirror(copy, MirrorType.HORIZONTAL);
-            blockSet.addBLock(copy, currentX, currentY);
+            blockSet.addBlock(copy, currentX, currentY);
         }
         
         // ----- . -----
@@ -185,21 +185,21 @@ public class WindowStructure extends StructureStrategy {
         if (windowBlock != null && blockCountY > 1){
             BlockSet copy = windowBlock.copyToNew();
             manipulator.mirror(copy, MirrorType.VERTICAL);
-            blockSet.addBLock(copy, currentX, currentY);
+            blockSet.addBlock(copy, currentX, currentY);
             currentX += windowBlockSize.getX();
         }
         // вертикальная рама между нижними окнами
         if (vertFrameBlock != null && blockCountY > 1){
             BlockSet copy = vertFrameBlock.copyToNew();
             manipulator.mirror(copy, MirrorType.VERTICAL);
-            blockSet.addBLock(copy, currentX, currentY);
+            blockSet.addBlock(copy, currentX, currentY);
             currentX += vertFrameBlockSize.getX();
         }
         // правое верхнее окно
         if (windowBlock != null && blockCountY > 1 && blockCountX > 1){
             BlockSet copy = windowBlock.copyToNew();
             manipulator.mirror(copy, MirrorType.DIAGONAL);
-            blockSet.addBLock(copy, currentX, currentY);
+            blockSet.addBlock(copy, currentX, currentY);
         }
         
         return blockSet;
@@ -253,7 +253,7 @@ public class WindowStructure extends StructureStrategy {
     }
 
     @Override
-    protected StructureStrategyType getType() {
-        return StructureStrategyType.WindowStructure;
+    protected StructureType getType() {
+        return StructureType.WINDOW_STRUCTURE;
     }
 }

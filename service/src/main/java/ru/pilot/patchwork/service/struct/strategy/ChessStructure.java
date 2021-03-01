@@ -3,7 +3,7 @@ package ru.pilot.patchwork.service.struct.strategy;
 import java.util.List;
 
 import ru.pilot.patchwork.model.ModelConfig;
-import ru.pilot.patchwork.model.StructureStrategyType;
+import ru.pilot.patchwork.model.StructureType;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
@@ -36,7 +36,7 @@ public class ChessStructure extends StructureStrategy {
                 IBlock block = getNewBlock(availableBlockList, availableBlockCount, x+y);
 
                 // добавляем в нужное место
-                blockSet.addBLock(block, nextX, nextY);
+                blockSet.addBlock(block, nextX, nextY);
 
                 // получим дальние точки для размещения следующих блоков
                 Point max = CoordUtils.getMax(block.getPolygonBlocks());
@@ -53,8 +53,8 @@ public class ChessStructure extends StructureStrategy {
     }
 
     @Override
-    protected StructureStrategyType getType() {
-        return StructureStrategyType.ChessStructure;
+    protected StructureType getType() {
+        return StructureType.CHESS_STRUCTURE;
     }
 
     private IBlock getNewBlock(List<IBlock> availableBlockList, int availableBlockCount, int itemNumber) {

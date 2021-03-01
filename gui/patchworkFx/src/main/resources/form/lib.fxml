@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<FlowPane hgap="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" vgap="30.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.pilot.patchwork.controller.LibController">
+   <children>
+      <Button mnemonicParsing="false" onAction="#clothButtonPress" prefHeight="40.0" prefWidth="300.0" text="Ткани" />
+      <Button mnemonicParsing="false" onAction="#colorSetButtonPress" prefHeight="40.0" prefWidth="300.0" text="Наборы тканей/цветов" />
+      <Button mnemonicParsing="false" onAction="#blockButtonPress" prefHeight="40.0" prefWidth="300.0" text="Блоки" />
+      <Button mnemonicParsing="false" onAction="#likeButtonPress" prefHeight="40.0" prefWidth="300.0" text="Лайки" />
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+</FlowPane>

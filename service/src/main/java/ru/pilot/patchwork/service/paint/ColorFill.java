@@ -9,10 +9,10 @@ public class ColorFill implements Paint {
     private final Long id = BlockIdGenerator.getId();
 
     public static final ColorFill BLACK = new ColorFill(0, 0, 0);
-    public static final ColorFill RED = new ColorFill(1, 0, 0);
-    public static final ColorFill GREEN = new ColorFill(0, 1, 0);
-    public static final ColorFill BLUE = new ColorFill(0, 0, 1);
-    public static final ColorFill WHITE = new ColorFill(1, 1, 1);
+    public static final ColorFill RED = new ColorFill(255, 0, 0);
+    public static final ColorFill GREEN = new ColorFill(0, 255, 0);
+    public static final ColorFill BLUE = new ColorFill(0, 0, 255);
+    public static final ColorFill WHITE = new ColorFill(255, 255, 255);
     
     private final int red;
     private final int green;

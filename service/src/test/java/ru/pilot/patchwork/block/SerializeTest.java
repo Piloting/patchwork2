@@ -64,8 +64,8 @@ public class SerializeTest {
         Block rect = getRectBlock();
 
         BlockSet blockSet = new BlockSet();
-        blockSet.addBLock(twoTriangle, 0, 0);
-        blockSet.addBLock(rect, 10, 10);
+        blockSet.addBlock(twoTriangle, 0, 0);
+        blockSet.addBlock(rect, 10, 10);
         return blockSet;
     }
     

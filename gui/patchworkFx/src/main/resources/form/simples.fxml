@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.pilot.patchwork.controller.SimplesController">
+         <top>
+            <FlowPane hgap="10.0" vgap="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="32.0" prefWidth="149.0" spacing="5.0">
+                     <children>
+                        <Label text="Размер:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="sizeXTextField" alignment="CENTER" prefHeight="24.0" prefWidth="35.0" text="4" />
+                        <Label text="x">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="sizeYTextField" alignment="CENTER" prefHeight="24.0" prefWidth="35.0" text="4" />
+                     </children>
+                  </HBox>
+                  <FlowPane hgap="5.0" prefHeight="31.0" prefWidth="446.0" vgap="5.0">
+                     <children>
+                        <Label text="Шаблоны:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <CheckBox fx:id="chessCheckBox" mnemonicParsing="false" onAction="#structureChange" text="Шахматка" />
+                        <CheckBox fx:id="lineCheckBox" mnemonicParsing="false" onAction="#structureChange" text="Линии" />
+                        <CheckBox fx:id="randomCheckBox" mnemonicParsing="false" onAction="#structureChange" text="Случайно" />
+                        <CheckBox fx:id="windowCheckBox" mnemonicParsing="false" onAction="#structureChange" text="4 квадрата" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </FlowPane>
+                  <FlowPane hgap="5.0" prefHeight="31.0" prefWidth="229.0" vgap="5.0">
+                     <children>
+                        <Label text="Цвета:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="colorSetButton" mnemonicParsing="false" onAction="#openColorSet" text="Набор..." />
+                        <Button fx:id="imageSetButton" mnemonicParsing="false" onAction="#openImage" text="Картинка..." />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </FlowPane>
+                  <Button fx:id="blockButton" mnemonicParsing="false" onAction="#openBlockType" prefHeight="30.0" prefWidth="125.0" text="Виды блоков..." />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </FlowPane>
+         </top>
+         <center>
+            <ScrollPane fx:id="scrollPane" BorderPane.alignment="CENTER">
+               <content>
+                  <FlowPane fx:id="simplePane" hgap="50.0" prefWidth="795.0" vgap="50.0">
+               <padding>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </padding></FlowPane>
+               </content>
+            </ScrollPane>
+         </center>
+   <bottom>
+      <FlowPane hgap="10.0" vgap="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#generateButtonPress" style="-fx-border-color: #94fccf;" text="Пересоздать" />
+            <Button mnemonicParsing="false" onAction="#plusSizeButtonPress" text="+ Крупнее" />
+            <Button mnemonicParsing="false" onAction="#minusSizeButtonPress" text="- Мельче" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </FlowPane>
+   </bottom>
+      </BorderPane>

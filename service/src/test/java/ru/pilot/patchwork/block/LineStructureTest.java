@@ -27,7 +27,7 @@ public class LineStructureTest {
         BlockSet blockSet = lineStructure.fill(blockCountX, blockCountY, templateList, config);
         TextPrinterBlock.print(blockSet);
         
-        Assertions.assertEquals(blockSet.getBlocks().size(), blockCountX);
+        Assertions.assertEquals(blockSet.getBlocks().size(), blockCountX*blockCountY);
     }
     
     @Test
@@ -43,6 +43,6 @@ public class LineStructureTest {
         BlockSet blockSet = lineStructure.fill(blockCountX, blockCountY, templateList, config);
         TextPrinterBlock.print(blockSet);
         
-        Assertions.assertEquals(blockSet.getBlocks().size(), blockCountX);
+        Assertions.assertEquals(blockSet.getBlocks().size(), blockCountX*blockCountY);
     }
 }
