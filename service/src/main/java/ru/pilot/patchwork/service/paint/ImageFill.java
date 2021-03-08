@@ -8,13 +8,15 @@ public class ImageFill implements Paint {
 
     private final Long id = BlockIdGenerator.getId();
     private final String imageName;
+    private final byte[] imageBody;
     
     /** rectangle - point and size */
     private double x = 0;
     private double y = 0;
     private double width = 100;
 
-    public ImageFill(String imageName) {
+    public ImageFill(String imageName, byte[] imageBody) {
         this.imageName = imageName;
+        this.imageBody = imageBody;
     }
 }

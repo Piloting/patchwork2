@@ -2,7 +2,6 @@ package ru.pilot.patchwork.service.struct.strategy;
 
 import java.util.List;
 
-import liquibase.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.pilot.patchwork.model.ModelConfig;
@@ -225,7 +224,8 @@ public class WindowStructure extends StructureStrategy {
         String frame  = " X ";
         String center = " 0 ";
 
-        logger.trace(StringUtils.repeat("-", window.length() * (blockCountX)));
+        String line = new String(new char[window.length() * blockCountX]).replace("\0", "-");
+        logger.trace(line);
 
         pseudoPrint(windowBlockCountX, vertFrameBlockCountX, windowBlockCountY, blockCountX, window, frame);
         pseudoPrint(horizontFrameBlockCountX, pointFrameBlockCountX, horizontFrameBlockCountY, blockCountX, frame, center);
@@ -233,7 +233,7 @@ public class WindowStructure extends StructureStrategy {
             pseudoPrint(windowBlockCountX, vertFrameBlockCountX, windowBlockCountY, blockCountX, window, frame);
         }
 
-        logger.trace(StringUtils.repeat("-", window.length() * (blockCountX)));
+        logger.trace(line);
     }
     
     private void pseudoPrint(int windowBlockCountX, int vertFrameBlockCountX, int windowBlockCountY, int blockCountX, String window, String frame) {

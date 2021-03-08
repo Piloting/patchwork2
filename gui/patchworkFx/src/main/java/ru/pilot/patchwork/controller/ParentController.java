@@ -1,23 +1,23 @@
 package ru.pilot.patchwork.controller;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.math.NumberUtils;
 import ru.pilot.patchwork.MainFx;
 import ru.pilot.patchwork.service.block.Block;
 import ru.pilot.patchwork.service.block.BlockSet;
@@ -27,11 +27,12 @@ import ru.pilot.patchwork.service.coord.BlockPointManipulatorFactory;
 import ru.pilot.patchwork.service.coord.CoordUtils;
 import ru.pilot.patchwork.service.coord.Point;
 import ru.pilot.patchwork.service.paint.ColorFill;
+import ru.pilot.patchwork.service.paint.ImageFill;
 import ru.pilot.patchwork.service.paint.Paint;
 
 public class ParentController {
     
-    
+    protected int rectSize = 200;
 
     protected Group createViewBlockSet(BlockSet blockSet, int width, int height){
         BlockPointManipulator manipulator = BlockPointManipulatorFactory.INSTANCE.getManipulator();
@@ -63,8 +64,45 @@ public class ParentController {
         return group;
     }
     
+    protected Rectangle createViewColorFill(Paint paint, int rectSize) {
+        return new Rectangle(rectSize, rectSize, createFxPaint(paint, rectSize));
+    }
+
+    private javafx.scene.paint.Paint createFxPaint(Paint paint, int width) {
+        if (paint instanceof ColorFill) {
+            ColorFill colorFill = (ColorFill) paint;
+            return Color.rgb(colorFill.getRed(), colorFill.getGreen(), colorFill.getBlue());
+        } else if (paint instanceof ImageFill) {
+            ImageFill imageFill = (ImageFill) paint;
+            String imageName = imageFill.getImageName();
+            //Image image = FileUtils.getImage(new File(imageName));
+            Image image = new Image(new ByteArrayInputStream(imageFill.getImageBody()));
+            
+            return getImagePattern(image, width);
+        }
+        
+        throw new RuntimeException("Not implemented paint - " + paint.getClass().getSimpleName());
+    }
+
+    public static ImagePattern getImagePattern(Image image, double rectWidth) {
+        double imageWidth = image.getWidth();
+        double imageHeight = image.getHeight();
+
+        ImagePattern imagePattern;
+        if (imageWidth == imageHeight){
+            imagePattern = new ImagePattern(image, 0, 0, rectWidth, rectWidth, false);
+        } else if (imageHeight < imageWidth){
+            double h = rectWidth / (imageWidth/imageHeight);
+            imagePattern = new ImagePattern(image, 0, 0, rectWidth, h, false);
+        } else {
+            double w = rectWidth / (imageHeight/imageWidth);
+            imagePattern = new ImagePattern(image, 0, 0, w, rectWidth, false);
+        }
+        return imagePattern;
+    }
+
     @SneakyThrows
-    public static void openForm(String fileName, String title) {
+    public static void openForm(String fileName, String title, boolean isModal) {
         // New window (Stage)
         URL form = Thread.currentThread().getContextClassLoader().getResource("form/"+fileName);
         Parent root = FXMLLoader.load(form);
@@ -74,7 +112,9 @@ public class ParentController {
         newWindow.setScene(new Scene(root));
 
         // Specifies the modality for new window.
-        newWindow.initModality(Modality.WINDOW_MODAL);
+        if (isModal){
+            newWindow.initModality(Modality.APPLICATION_MODAL);
+        }
 
         // Specifies the owner Window (parent) for new window
         Stage primaryStage = MainFx.getPrimaryStage();
@@ -84,13 +124,20 @@ public class ParentController {
         newWindow.setX(primaryStage.getX());
         newWindow.setY(primaryStage.getY());
 
-        newWindow.show();
+        newWindow.showAndWait();
     }
 
     public static int getInt(String text){
-        if (NumberUtils.isCreatable(text)) {
-            return NumberUtils.createInteger(text);
+        try{
+            return Integer.decode(text);
+        } catch (Exception e){
+            return 0;
         }
-        return 0;
+    }
+    
+    protected void close(ActionEvent actionEvent) {
+        Node  source = (Node)  actionEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 }

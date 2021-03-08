@@ -22,9 +22,9 @@ public class ColorFill implements Paint {
     public static ColorFill web(String web) {
         web = web.substring(1);
         return new ColorFill(
-                Integer.parseInt(web.substring(0, 1), 16),
-                Integer.parseInt(web.substring(1, 2), 16), 
-                Integer.parseInt(web.substring(2, 3), 16));
+                Integer.parseInt(web.substring(0, 2), 16),
+                Integer.parseInt(web.substring(2, 4), 16), 
+                Integer.parseInt(web.substring(4, 6), 16));
     }
     public ColorFill(int red, int green, int blue) {
         

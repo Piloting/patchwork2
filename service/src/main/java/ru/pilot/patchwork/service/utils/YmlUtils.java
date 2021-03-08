@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.pilot.patchwork.PatchworkApplication;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
+import ru.pilot.patchwork.service.config.JacksonConfig;
 
 public class YmlUtils {
 
@@ -14,7 +14,7 @@ public class YmlUtils {
     private static final Logger logger = LoggerFactory.getLogger(YmlUtils.class);
 
     private static synchronized void init(){
-        objectMapper = PatchworkApplication.getApplicationContext().getBean(ObjectMapper.class);
+        objectMapper = new JacksonConfig().objectMapper();
     }
     
     public static void setObjectMapper(ObjectMapper customObjectMapper) {

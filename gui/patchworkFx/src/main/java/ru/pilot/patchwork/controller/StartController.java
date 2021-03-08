@@ -22,7 +22,7 @@ public class StartController extends ParentController {
 
     @FXML
     void simplesButtonPress(ActionEvent event) {
-        openForm("simples.fxml", "Примеры");
+        openForm("simples.fxml", "Примеры", false);
     }
 
 }

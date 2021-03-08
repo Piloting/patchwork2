@@ -10,23 +10,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import ru.pilot.patchwork.model.ModelConfig;
-import ru.pilot.patchwork.model.ModelService;
 import ru.pilot.patchwork.model.PaintType;
 import ru.pilot.patchwork.model.StructureType;
-import ru.pilot.patchwork.service.block.Block;
 import ru.pilot.patchwork.service.block.BlockSet;
-import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.coord.Point;
-import ru.pilot.patchwork.service.paint.ColorFill;
-import ru.pilot.patchwork.service.paint.strategy.PaintStrategyEnum;
-import ru.pilot.patchwork.service.struct.strategy.StructureStrategy;
-import ru.pilot.patchwork.service.struct.strategy.StructureStrategyEnum;
 
 public class SimplesController extends ParentController {
 
@@ -106,13 +96,6 @@ public class SimplesController extends ParentController {
         simplePane.getChildren().addAll(groupList);
     }
 
-    private Block getTwoTriangleBlock() {
-        Block twoTriangle = new Block();
-        twoTriangle.getPolygonBlocks().add(new PolygonBlock(new double[] {0,0,      0,100,   100,0        }, ColorFill.BLUE));
-        twoTriangle.getPolygonBlocks().add(new PolygonBlock(new double[] {100,100,  100,0,   0,100        }, ColorFill.GREEN));
-        return twoTriangle;
-    }
-
     @FXML
     void structureChange(ActionEvent event) {
     
@@ -120,7 +103,7 @@ public class SimplesController extends ParentController {
 
     @FXML
     void openColorSet(ActionEvent event) {
-
+        openForm("colorSet.fxml", "Наборы цветов", true);
     }
 
     @FXML

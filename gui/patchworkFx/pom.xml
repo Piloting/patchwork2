@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>ru.pilot.gui</groupId>
     <artifactId>patchworkFx</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     
     <dependencies>
@@ -20,16 +20,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.18</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.11</version>
         </dependency>
     </dependencies>
 
@@ -48,7 +38,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.baeldung.executable.ExecutableMavenJar
+                                        ru.pilot.patchwork.MainFx
                                     </mainClass>
                                 </manifest>
                             </archive>
