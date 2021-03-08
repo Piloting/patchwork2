@@ -1,17 +1,23 @@
 package ru.pilot.patchwork.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import ru.pilot.patchwork.service.paint.Paint;
 import ru.pilot.patchwork.service.paint.PaintSet;
@@ -24,6 +30,8 @@ public class ColorSetController extends ParentController {
     @FXML private VBox vBox;
 
     private static List<PaintSet> paintSetList = null;
+    private static List<PaintSet> deletedPaintSetList = null;
+    private static final Map<Long, PaintSet> selectedPaintMap = new HashMap<>();
     private final LibraryController libraryController = new LibraryController();
     
     @FXML
@@ -34,30 +42,61 @@ public class ColorSetController extends ParentController {
     }
 
     private void layout() {
-        List<PaintSet> paintSetList = libraryController.getPaintSet();
+        paintSetList = libraryController.getPaintSet();
         
+        vBox.getChildren().clear();
+
         if (paintSetList == null){
-            vBox.getChildren().clear();
             return;
         }
         
         for (PaintSet paintSet : paintSetList) {
-            HBox newPane = createNewPane();
+            HBox newPane = createNewPane(paintSet.getId());
+            
+            ContextMenu cm = createContextMenu(paintSet);
+            newPane.setOnContextMenuRequested(event -> cm.show(newPane, event.getScreenX(), event.getScreenY()));
+            
             ObservableList<Node> children = newPane.getChildren();
             for (Paint paint : paintSet.getPaints()) {
                 Rectangle rectangle = createViewColorFill(paint, rectSize);
                 rectangle.setId(paint.getId()+"");
-                //ContextMenu cm = createContextMenu(paintSet, paint.getId());
-                //rectangle.setOnContextMenuRequested(event -> cm.show(rectangle, event.getScreenX(), event.getScreenY()));
                 children.add(rectangle);
             }
         }
     }
     
-    private HBox createNewPane(){
+    private ContextMenu createContextMenu(PaintSet paintSet) {
+        return new ContextMenu(
+                deleteMenuItem(paintSet),
+                updateMenuItem(paintSet)
+        );
+    }
+    
+    private MenuItem deleteMenuItem(PaintSet paintSet) {
+        MenuItem menuItem = new MenuItem("Удалить");
+        menuItem.setOnAction(event -> {
+            paintSetList.removeIf(p -> p.getId().equals(paintSet.getId()));
+            deletedPaintSetList.add(paintSet);
+            layout();
+        });
+        return menuItem;
+    }
+    
+    private MenuItem updateMenuItem(PaintSet paintSet) {
+        MenuItem menuItem = new MenuItem("Изменить");
+        menuItem.setOnAction(event -> {
+            ChangeColorController.setPaintSet(paintSet);
+            openForm("changeColor.fxml", "Изменение цветов", true);
+            layout();
+        });
+        return menuItem;
+    }
+
+    private HBox createNewPane(Long id){
         HBox newHBox = new HBox();
         newHBox.setPrefHeight(rectSize);
         newHBox.setSpacing(10);
+        newHBox.setId(id+"");
         newHBox.setPadding(new Insets(10,10,10,10));
         
         ScrollPane newGorScrollPane = new ScrollPane(newHBox);
@@ -67,27 +106,53 @@ public class ColorSetController extends ParentController {
         mainPane.widthProperty().addListener(p -> newGorScrollPane.setPrefWidth(mainPane.getWidth()));
 
         vBox.getChildren().add(newGorScrollPane);
+
+        if (selectedPaintMap.containsKey(id)){
+            newHBox.setBackground(selectBackground());
+        }
+
+        newHBox.setOnMouseClicked(event -> {
+            HBox source = (HBox) event.getSource();
+            if (selectedPaintMap.containsKey(id)){
+                selectedPaintMap.keySet().remove(id);
+                source.setBackground(null);
+            } else {
+                PaintSet paintSet = paintSetList.stream().filter(ps -> ps.getId().equals(id)).findFirst().orElse(null);
+                selectedPaintMap.put(id, paintSet);
+                source.setBackground(selectBackground());
+            }
+        });
         
         return newHBox;
     }
 
-    @FXML
-    private Button okButtonPress;
-
-    @FXML
-    private Button addButtonPress;
-
-    @FXML
-    private Button cancelButtonPress;
+    private Background selectBackground() {
+        return new Background(new BackgroundFill(Color.GREEN, null, null));
+    }
 
     @FXML
     void cancelButtonPress(ActionEvent event) {
-
+        paintSetList = null;
+        deletedPaintSetList = null;
+        selectedPaintMap.clear();
+        close(event);
     }
 
     @FXML
     void okButtonPress(ActionEvent event) {
+        // сохранить в БД удаленные и добавленные
+        if (paintSetList != null){
+            for (PaintSet paintSet : paintSetList) {
+                libraryController.savePaintSet(paintSet);
+            }
+        }
+        if (deletedPaintSetList != null) {
+            for (PaintSet paintSet : deletedPaintSetList) {
+                libraryController.removePaintSet(paintSet.getId());
+            }
+        }
 
+        close(event);
     }
 
     @FXML
@@ -96,6 +161,15 @@ public class ColorSetController extends ParentController {
         PaintSet paintSet = paintSetList.iterator().next();
         ChangeColorController.setPaintSet(paintSet);
         openForm("changeColor.fxml", "Выбор цветов", true);
+        layout();
+    }
+    
+    public static Map<Long, PaintSet> getSelectedPaintSetIds(){
+        return selectedPaintMap;
+    }
+    public static void setSelectedPaintSetIds(Map<Long, PaintSet> selectedPaintMapLocal){
+        selectedPaintMap.clear();
+        selectedPaintMap.putAll(selectedPaintMapLocal);
     }
 
 }

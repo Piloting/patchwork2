@@ -2,6 +2,9 @@ package ru.pilot.patchwork.controller;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,6 +37,26 @@ public class ParentController {
     
     protected int rectSize = 200;
 
+    protected static Map<Long, ImagePattern> cachePatternMap = new ConcurrentHashMap<>();
+
+    protected ImagePattern replaceImagePatternCache(ImageFill imageFill){
+        Image image = new Image(new ByteArrayInputStream(imageFill.getImageBody()));
+        ImagePattern imagePatternNew = getImagePattern(image, imageFill.getWidth());
+        cachePatternMap.put(imageFill.getId(), imagePatternNew);
+        return imagePatternNew;
+    }
+    
+    protected ImagePattern getImagePatternCache(ImageFill imageFill){
+        ImagePattern imagePattern = cachePatternMap.get(imageFill.getId());
+        if (imagePattern != null){
+            return imagePattern;
+        }
+        Image image = new Image(new ByteArrayInputStream(imageFill.getImageBody()));
+        ImagePattern imagePatternNew = getImagePattern(image, imageFill.getWidth());
+        cachePatternMap.put(imageFill.getId(), imagePatternNew);
+        return imagePatternNew;
+    }
+    
     protected Group createViewBlockSet(BlockSet blockSet, int width, int height){
         BlockPointManipulator manipulator = BlockPointManipulatorFactory.INSTANCE.getManipulator();
         Point size = CoordUtils.getSize(blockSet.getPolygonBlocks());
@@ -58,6 +81,8 @@ public class ParentController {
                 ColorFill colorFill = (ColorFill) paint;
                 Color color = Color.rgb(colorFill.getRed(), colorFill.getGreen(), colorFill.getBlue());
                 polygon.setFill(color);
+            } else if (paint instanceof ImageFill){
+                polygon.setFill(getImagePatternCache((ImageFill) paint));
             }
             children.add(polygon);
         }
@@ -73,12 +98,7 @@ public class ParentController {
             ColorFill colorFill = (ColorFill) paint;
             return Color.rgb(colorFill.getRed(), colorFill.getGreen(), colorFill.getBlue());
         } else if (paint instanceof ImageFill) {
-            ImageFill imageFill = (ImageFill) paint;
-            String imageName = imageFill.getImageName();
-            //Image image = FileUtils.getImage(new File(imageName));
-            Image image = new Image(new ByteArrayInputStream(imageFill.getImageBody()));
-            
-            return getImagePattern(image, width);
+            return getImagePatternCache((ImageFill) paint);
         }
         
         throw new RuntimeException("Not implemented paint - " + paint.getClass().getSimpleName());

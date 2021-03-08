@@ -41,6 +41,9 @@ public class PatchworkModelController {
         setCurrentModelBlock(generate);
         return generate;
     }
+    public void setModelConfig(ModelConfig modelConfig){
+        modelService.setModelConfig(modelConfig);
+    }
     
     
     // блоки учавствующие в генерации
@@ -72,7 +75,7 @@ public class PatchworkModelController {
     public Set<Paint> getModelPaints(){
        return modelService.getModelPaints();
     }
-    public void setPaintStrategy(PaintType paintType, ModelConfig modelConfig){
+    public void setPaintStrategy(PaintType paintType){
         modelService.getPatchworkModel().setPaintStrategy(PaintStrategyEnum.getImplByType(paintType));
     }
     public void replacePaint(Paint oldPaint, Paint newPaint){

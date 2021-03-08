@@ -1,6 +1,7 @@
 package ru.pilot.patchwork.service.paint.strategy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,9 @@ import java.util.Random;
 
 import org.apache.commons.collections4.CollectionUtils;
 import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.ModelParam;
+import ru.pilot.patchwork.service.block.Block;
+import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.block.IBlock;
 import ru.pilot.patchwork.service.block.PolygonBlock;
 import ru.pilot.patchwork.service.paint.ColorFill;
@@ -34,10 +38,24 @@ public class RandomColor extends PaintStrategy {
     /** Раскрасим подобные блоки одинаково */
     @Override
     public void fill(IBlock block, ModelConfig modelConfig) {
+        PaintSet paintSetConfig = modelConfig.getParam(ModelParam.PAINT_SET);
+        if (paintSetConfig != null){
+            paintSet = paintSetConfig;
+        }
+
         // сделаем цвета для одинаковых блоков
         Map<Long, Paint> similarMap = new HashMap<>();
-        for (PolygonBlock polygonBlock : block.getPolygonBlocks()) {
-            similarMap.putIfAbsent(polygonBlock.getSimilarId(), getRndPaint());
+        
+        if (block instanceof BlockSet){
+            for (Block innerBlock : ((BlockSet) block).getBlocks()) {
+                // в пределах блока желательно делать разные цвета 
+                List<Paint> existPaints = new ArrayList<>();
+                for (PolygonBlock polygonBlock : innerBlock.getPolygonBlocks()) {
+                    Paint uniqueColor = getUniqueColor(existPaints);
+                    existPaints.add(uniqueColor);
+                    similarMap.putIfAbsent(polygonBlock.getSimilarId(), uniqueColor);
+                }
+            }
         }
 
         // заполним цвета
@@ -57,6 +75,16 @@ public class RandomColor extends PaintStrategy {
 
     private Paint getRndPaint(){
         return CollectionUtils.isEmpty(paintSet.getPaints()) ? getRgb() : paintSet.getRandomPaint();
+    }
+
+    private Paint getUniqueColor(Collection<Paint> existsColor){
+        int i = 0;
+        Paint color;
+        do {
+            color = getRndPaint();
+            i++;
+        } while (i<10 && existsColor.contains(color));
+        return color;
     }
 
     private PaintSet getColorSet(int colorCount) {

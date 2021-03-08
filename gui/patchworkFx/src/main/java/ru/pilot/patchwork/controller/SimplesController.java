@@ -1,7 +1,11 @@
 package ru.pilot.patchwork.controller;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,11 +16,17 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import lombok.SneakyThrows;
+import ru.pilot.patchwork.MainFx;
 import ru.pilot.patchwork.model.ModelConfig;
+import ru.pilot.patchwork.model.ModelParam;
 import ru.pilot.patchwork.model.PaintType;
 import ru.pilot.patchwork.model.StructureType;
 import ru.pilot.patchwork.service.block.BlockSet;
 import ru.pilot.patchwork.service.coord.Point;
+import ru.pilot.patchwork.service.paint.ImageFill;
+import ru.pilot.patchwork.service.paint.PaintSet;
+import ru.pilot.patchwork.utils.FileUtils;
 
 public class SimplesController extends ParentController {
 
@@ -25,6 +35,8 @@ public class SimplesController extends ParentController {
     private int simpleBlockSize = 300;
     private final List<BlockSet> currentSimpleList = new ArrayList<>();
     private final List<StructureType> currentStructureTypeList = new ArrayList<>();
+    private final Map<Long, PaintSet> selectedPaintMap = new HashMap<>();
+    private ImageFill selectedImageFill = null;
     
     @FXML private TextField sizeXTextField;
     @FXML private Pane mainPane;
@@ -75,16 +87,36 @@ public class SimplesController extends ParentController {
         currentSimpleList.clear();
 
         modelController.setSize(new Point(getInt(sizeXTextField.getText()), getInt(sizeYTextField.getText())));
-        modelController.setPaintStrategy(PaintType.RANDOM_COLOR, new ModelConfig());
 
+        ModelConfig modelConfig = new ModelConfig();
+
+        if (selectedImageFill == null){
+            modelConfig.addParam(ModelParam.PAINT_SET, getSelectedPaintSet());
+            modelController.setPaintStrategy(PaintType.RANDOM_COLOR);
+        } else {
+            modelConfig.addParam(ModelParam.PICTURE, selectedImageFill);
+            modelController.setPaintStrategy(PaintType.PICTURE_COLOR);
+        }
+
+        modelController.setModelConfig(modelConfig);
         for (StructureType structureType : currentStructureTypeList) {
-            modelController.setStructureStrategy(structureType, new ModelConfig());
-            for (int i = 0; i < 3; i++) {
+            modelController.setStructureStrategy(structureType, modelConfig);
+            for (int i = 0; i < 4; i++) {
                 currentSimpleList.add(modelController.generate());
             }
         }
-        
         layout(currentSimpleList);
+    }
+    
+    private PaintSet getSelectedPaintSet() {
+        if (selectedPaintMap.isEmpty()){
+            return null;
+        }
+        PaintSet complexPaintSet = new PaintSet();
+        for (PaintSet paintSet : selectedPaintMap.values()) {
+            complexPaintSet.getPaints().addAll(paintSet.getPaints());
+        }
+        return complexPaintSet;
     }
 
     private void layout(List<BlockSet> blockSets) {
@@ -103,12 +135,26 @@ public class SimplesController extends ParentController {
 
     @FXML
     void openColorSet(ActionEvent event) {
+        ColorSetController.setSelectedPaintSetIds(selectedPaintMap);
         openForm("colorSet.fxml", "Наборы цветов", true);
+        Map<Long, PaintSet> fromSelectedPaintMap = ColorSetController.getSelectedPaintSetIds();
+        if (!fromSelectedPaintMap.isEmpty()){
+            selectedPaintMap.clear();
+            selectedPaintMap.putAll(fromSelectedPaintMap);
+            selectedImageFill = null;
+        }
     }
 
+    @SneakyThrows
     @FXML
     void openImage(ActionEvent event) {
-
+        File file = FileUtils.getPictFileChooser().showOpenDialog(MainFx.getPrimaryStage());
+        if (file != null){
+            selectedPaintMap.clear();
+            selectedImageFill = new ImageFill(file.getAbsolutePath(), Files.readAllBytes(file.toPath()));
+        } else {
+            selectedImageFill = null;
+        }
     }
 
     @FXML

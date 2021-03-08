@@ -70,11 +70,11 @@ public class ChangeColorController extends ParentController {
                         return;
                     }
                     Rectangle rect = (Rectangle) event.getSource();
-                    javafx.scene.paint.Paint rectFill = rect.getFill();
                     double scaleFactor = (event.getDeltaY() > 0) ? 1.1 : 1 / 1.1;
-                    ImagePattern fill = (ImagePattern) rectFill;
-                    ImagePattern imagePattern = getImagePattern(fill.getImage(), fill.getWidth() * scaleFactor);
-                    rect.setFill(imagePattern);
+
+                    ImageFill imageFill = (ImageFill) paint;
+                    imageFill.setWidth(imageFill.getWidth() * scaleFactor);
+                    rect.setFill(replaceImagePatternCache(imageFill));
                 });
             }
             rectList.add(rectangle);

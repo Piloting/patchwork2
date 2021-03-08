@@ -7,4 +7,5 @@ public enum ModelParam {
     HORIZONTAL_DELIMITER,
     DELIMITER_WITH_POINT,
     PICTURE,
+    PAINT_SET
 }

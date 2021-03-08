@@ -1,5 +1,6 @@
 package ru.pilot.patchwork.controller;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +64,9 @@ public class LibraryController {
 
     //		Наборы Цветов (задать в ручную, по картинке N цветов)
     public List<PaintSet> getPaintSet(){
-        return DaoFactory.INSTANCE.getPaintDao().getPaintSetList();
+        List<PaintSet> paintSetList = DaoFactory.INSTANCE.getPaintDao().getPaintSetList();
+        paintSetList.sort(Comparator.comparing(PaintSet::getId));
+        return paintSetList;
     }
     public void savePaintSet(PaintSet paintSet){
         DaoFactory.INSTANCE.getPaintDao().savePaintSet(paintSet);

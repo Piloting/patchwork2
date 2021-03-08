@@ -1,6 +1,7 @@
 package ru.pilot.patchwork.service.paint;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.pilot.patchwork.service.block.BlockIdGenerator;
 
 @Getter
@@ -11,8 +12,7 @@ public class ImageFill implements Paint {
     private final byte[] imageBody;
     
     /** rectangle - point and size */
-    private double x = 0;
-    private double y = 0;
+    @Setter
     private double width = 100;
 
     public ImageFill(String imageName, byte[] imageBody) {

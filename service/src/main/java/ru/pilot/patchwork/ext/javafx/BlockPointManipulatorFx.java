@@ -4,6 +4,7 @@ package ru.pilot.patchwork.ext.javafx;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.geometry.BoundingBox;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
@@ -105,11 +106,8 @@ public class BlockPointManipulatorFx implements BlockPointManipulator {
         transformThis(polygonBlocks, scale);
     }
     
-    public boolean isIntersect(PolygonBlock polygonBlock1, PolygonBlock polygonBlock2) {
-        Shape intersect = Shape.intersect(
-                new Polygon(polygonBlock1.getPoints()), 
-                new Polygon(polygonBlock2.getPoints()));
-        return intersect.getBoundsInLocal().getWidth() > 0;
+    public boolean isIntersect(PolygonBlock polygonBlock1, Point point) {
+        return new Polygon(polygonBlock1.getPoints()).intersects(new BoundingBox(point.getX(), point.getY(), 0, 0));
     }
 
     private void transformThis(List<PolygonBlock> polygonBlocks, Transform transform){

@@ -16,6 +16,6 @@ public interface BlockPointManipulator {
     void scale(IBlock block, double zoomX, double zoomY);
     void scale(List<PolygonBlock> polygonBlocks, double zoomX, double zoomY);
     
-    boolean isIntersect(PolygonBlock polygonBlock1, PolygonBlock polygonBlock2);
+    boolean isIntersect(PolygonBlock polygonBlock1, Point point);
 
 }

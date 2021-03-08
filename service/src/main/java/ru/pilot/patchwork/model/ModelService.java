@@ -105,4 +105,7 @@ public class ModelService {
     public void generatePaint() {
         patchworkModel.getPaintStrategy().fill(patchworkModel.getCurrentModel(), patchworkModel.getModelConfig());
     }
+    public void setModelConfig(ModelConfig modelConfig) {
+        patchworkModel.setModelConfig(modelConfig);
+    }
 }

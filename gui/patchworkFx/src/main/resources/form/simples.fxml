@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.pilot.patchwork.controller.SimplesController">
+<BorderPane fx:id="mainPane" prefHeight="850.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.pilot.patchwork.controller.SimplesController">
          <top>
             <FlowPane hgap="10.0" vgap="10.0" BorderPane.alignment="CENTER">
                <children>
@@ -64,7 +64,7 @@
             </FlowPane>
          </top>
          <center>
-            <ScrollPane fx:id="scrollPane" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
                <content>
                   <FlowPane fx:id="simplePane" hgap="50.0" prefWidth="795.0" vgap="50.0">
                <padding>

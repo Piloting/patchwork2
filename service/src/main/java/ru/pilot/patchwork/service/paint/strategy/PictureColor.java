@@ -15,6 +15,7 @@ import ru.pilot.patchwork.service.coord.BlockPointManipulatorFactory;
 import ru.pilot.patchwork.service.coord.CoordUtils;
 import ru.pilot.patchwork.service.coord.Point;
 import ru.pilot.patchwork.service.paint.ColorFill;
+import ru.pilot.patchwork.service.paint.ImageFill;
 import ru.pilot.patchwork.service.paint.picture.PictureUtils;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -29,8 +30,8 @@ public class PictureColor extends PaintStrategy {
     }
 
     public void fill(IBlock block, ModelConfig modelConfig){
-        String imageName = modelConfig.getParam(PICTURE);
-        if (imageName == null){
+        ImageFill imageFill = modelConfig.getParam(PICTURE);
+        if (imageFill == null){
             throw new RuntimeException("Undefined image");
         }
 
@@ -47,15 +48,15 @@ public class PictureColor extends PaintStrategy {
             BlockPointManipulatorFactory.INSTANCE.getManipulator().translate(polygonBlocks, -min.getX(), -min.getY());
         }
         
-        PixelReader pixelReader = PictureUtils.getFitImage(imageName, blockWidth, blockHeight).getPixelReader();
+        PixelReader pixelReader = PictureUtils.getFitImage(imageFill, blockWidth, blockHeight).getPixelReader();
         Map<Long, List<ColorFill>> idToPixelColorsMap = new HashMap<>();
         // цикл по всем пикселям
-        for (int w = 0; w <= blockWidth; w++) {
-            for (int h = 0; h <= blockHeight; h++) {
+        for (int w = 0; w < blockWidth; w++) {
+            for (int h = 0; h < blockHeight; h++) {
                 ColorFill color = PictureUtils.getColor(pixelReader, w, h);
                 for (PolygonBlock polygonBlock : polygonBlocks) {
                     // проверяем в какой блок попадает пиксель
-                    boolean intersect = BlockPointManipulatorFactory.INSTANCE.getManipulator().isIntersect(polygonBlock, new PolygonBlock(new double[]{w, h}, null));
+                    boolean intersect = BlockPointManipulatorFactory.INSTANCE.getManipulator().isIntersect(polygonBlock, new Point(w, h));
                     if (intersect){
                         // сохраняем цвет
                         idToPixelColorsMap.putIfAbsent(polygonBlock.getId(), new ArrayList<>((int) (blockHeight * blockWidth / 16)));

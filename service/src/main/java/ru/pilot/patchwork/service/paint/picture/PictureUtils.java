@@ -4,6 +4,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import ru.pilot.patchwork.ext.javafx.PictureUtilsFx;
 import ru.pilot.patchwork.service.paint.ColorFill;
+import ru.pilot.patchwork.service.paint.ImageFill;
 import ru.pilot.patchwork.service.paint.PaintSet;
 
 public class PictureUtils {
@@ -12,8 +13,8 @@ public class PictureUtils {
         return PictureUtilsFx.getColorSetByPicture(count, picture);
     }
 
-    public static WritableImage getFitImage(String imageName, double blockWidth, double blockHeight) {
-        return PictureUtilsFx.getFitImage(imageName, blockWidth, blockHeight);
+    public static WritableImage getFitImage(ImageFill imageFill, double blockWidth, double blockHeight) {
+        return PictureUtilsFx.getFitImage(imageFill, blockWidth, blockHeight);
     }
 
     public static ColorFill getColor(PixelReader pixelReader, int x, int y){
